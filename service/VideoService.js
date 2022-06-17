@@ -14,8 +14,6 @@ module.exports = class VideoService {
             const videos = await VideoModel.find().skip(skip).limit(limit)
             let count = await VideoModel.find().count()
 
-            console.log(videos);
-
             return {
                 status: 200,
                 response: {
@@ -49,8 +47,8 @@ module.exports = class VideoService {
             let response = await VideoModel.find()
 
             let data = response.filter(item => {
-                console.log(content.toLowerCase().includes(item[key].toLowerCase()), "-", item[key], "-", content);
-                return (item[key].toLowerCase().includes(content.toLowerCase()) || content.toLowerCase().includes(item[key].toLowerCase()));
+               
+                return (item[key].toLowerCase().includes(content.toLowerCase()) /* || content.toLowerCase().includes(item[key].toLowerCase()) */);
             })
 
             data = data.slice(skip, skip + limit)
