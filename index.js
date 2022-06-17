@@ -40,8 +40,6 @@ app.use((req, res, next) => {
 });
 
 //rotas da API
-const VideoRouteOLD = require("./router/VideoRouteOLD")
-app.use("/videos-old", VideoRouteOLD)
 
 const VideoRoute = require("./router/VideoRoutes")
 app.use("/videos", VideoRoute)

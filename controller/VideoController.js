@@ -4,12 +4,35 @@ module.exports = class VideoController {
 
     static async apiGetAllVideo(req, res) {
         try {
-            const videos = await VideoService.getAllVideo()
+
+            let page = req.query.page? req.query.page : 1;
+          
+            const videos = await VideoService.getAllVideo(page)
+           
             res.status(videos.status).json(videos.response)
 
         } catch (error) {
             res.status(500).json({ message: "error" })
         }
+    }
+
+    static async apiGetBy(req, res){
+        try {
+
+            const key = req.params.key;
+            
+            const content = req.params.content;
+
+            const page = req.query.page? req.query.page : 1;
+
+            let videos = await VideoService.getBy(page, key, content);
+           
+            res.status(videos.status).json(videos.response);
+            
+        } catch (error) {
+            res.status(500).json({ message: "error" })
+        }
+
     }
 
     static async apiGetVideo(req, res) {

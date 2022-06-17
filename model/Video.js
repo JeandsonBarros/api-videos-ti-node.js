@@ -5,7 +5,8 @@ const videoModel = mongoose.model("VideoModel", {
     url: String,
     matter: String,
     type: String,
-    channel: String
+    channel: String,
+    thumbnail: String
 
 })
 
