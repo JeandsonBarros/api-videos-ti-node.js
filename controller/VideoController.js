@@ -9,7 +9,7 @@ module.exports = class VideoController {
           
             const videos = await VideoService.getAllVideo(page)
            
-            res.status(videos.status).json(videos.response)
+            res.status(videos.status).json(videos.status===200? videos.response : {message: videos.response})
 
         } catch (error) {
             res.status(500).json({ message: "error" })
@@ -27,7 +27,7 @@ module.exports = class VideoController {
 
             let videos = await VideoService.getBy(page, key, content);
            
-            res.status(videos.status).json(videos.response);
+            res.status(videos.status).json(videos.status===200? videos.response : {message: videos.response})
             
         } catch (error) {
             res.status(500).json({ message: "error" })
@@ -39,7 +39,8 @@ module.exports = class VideoController {
         try {
             req.params.id
             const video = await VideoService.getVideo(req.params.id)
-            res.status(video.status).json(video.response)
+
+            res.status(video.status).json(video.status===200? video.response : {message: video.response})
 
         } catch (error) {
             res.status(500).json({ message: "error" })
@@ -49,7 +50,8 @@ module.exports = class VideoController {
     static async apiPostVideo(req, res) {
         try {
             const video = await VideoService.postVideo(req.body)
-            res.status(video.status).json(video.response)
+
+            res.status(video.status).json({message: video.response})
 
         } catch (error) {
             res.status(500).json({ message: "error" })
@@ -60,7 +62,8 @@ module.exports = class VideoController {
         try {
             const id = req.params.id
             const video = await VideoService.putVideo(id, req.body)
-            res.status(video.status).json(video.response)
+
+            res.status(video.status).json({message: video.response})
 
         } catch (error) {
             res.status(500).json({ message: "error" })
@@ -72,7 +75,8 @@ module.exports = class VideoController {
         try {
             const id = req.params.id
             const video = await VideoService.deleteVideo(id)
-            res.status(video.status).json(video.response)
+
+            res.status(video.status).json({message: video.response})
 
         } catch (error) {
             res.status(500).json({ message: "error" })

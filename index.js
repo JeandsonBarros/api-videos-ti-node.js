@@ -5,6 +5,9 @@ require('dotenv').config()
 const mongoose = require("mongoose");
 const cors = require('cors');
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
+
 //formar de ler JSON / Middleware 
 app.use(
     express.urlencoded({
@@ -13,9 +16,15 @@ app.use(
 )
 app.use(express.json())
 
+app.use(
+    '/api-docs',
+    swaggerUi.serve, 
+    swaggerUi.setup(swaggerDocument)
+  );
+
 app.get("/", (req, res)=>{
 
-    res.json({teste: "teste"})
+    res.json({message: "Bem-vindo a Vídeos TI"})
 
 })
 

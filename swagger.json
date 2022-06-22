@@ -1,0 +1,422 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "API de Vídeos TI",
+        "description": " API para uma plataforma que visa sugestões de vídeos do YouTube relacionadas a uma área de TI.",
+        "version": "1.0",
+        "contact": {
+            "email": "geoo677@gmail.com"
+        }
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "API de teste"
+        }
+    ],
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "Vídeos"
+                ],
+                "description": "Retorna uma mensagem de Boas-vindas.",
+                "operationId": "Mensagem",
+                "summary": "Mensagem de Boas-vindas",
+                "responses": {
+                    "200": {
+                        "description": "Vídeo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/videos/find-by/{key}/{content}": {
+            "get": {
+                "tags": [
+                    "Vídeos"
+                ],
+                "summary": "Buscar vídeos",
+                "description": "Retornas uma lista de vídeos contendo o termo buscado.",
+                "operationId": "getFindVideos",
+                "parameters": [
+                    {
+                        "name": "key",
+                        "in": "path",
+                        "description": "Key do que deseja buscar, exemplo: name, type, matter.",
+                        "required": true,
+                        "default": "name"
+                    },
+                    {
+                        "name": "content",
+                        "in": "path",
+                        "description": "Termo que deseja buscar.",
+                        "required": true,
+                        "default": "Node"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna lista de vídeos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Videos"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/videos/?page={page}": {
+            "get": {
+                "summary": "Listar vídeo",
+                "description": "Lista todos os vídeos.",
+                "operationId": "getAllVideos",
+                "tags": [
+                    "Vídeos"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "página",
+                        "required": false,
+                        "default": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna lista de vídeos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Videos"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/videos": {
+            "post": {
+                "summary": "Salvar vídeo",
+                "description": "Salva vídeo via post.",
+                "tags": [
+                    "Vídeos"
+                ],
+                "operationId": "postVideo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Video"
+                            },
+                            "examples":{
+                                "video":{
+                                    "value":{
+                                        "name":"Como configurar um servidor FTP",
+                                        "url": "https://www.youtube.com/embed/HqT5xzSBa70",
+                                        "matter": "Redes",
+                                        "type": "Vídeo",
+                                        "channel": "Jeandson Barros",
+                                        "thumbnail": "http://img.youtube.com/vi/HqT5xzSBa70/hqdefault.jpg"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                },
+                "responses": {
+                    "201": {
+                        "description": "Confirmação de que o vídeo foi salvo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao salvar vídeo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/videos/{id}": {
+            "get": {
+                "tags": [
+                    "Vídeos"
+                ],
+                "summary": "Obter vídeo.",
+                "description": "Retornar o video do id informado pelo parâmetro  da URL.",
+                "operationId": "getVideo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do vídeo que se deseja buscar.",
+                        "required": true,
+                        "default": "62b2947caf24561b008a8b54"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retorna um vídeo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Video"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vídeo não encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Vídeos"
+                ],
+                "summary": "Editar vídeo.",
+                "description": "Edita o vídeo do id informado pelo parâmetro  da URL.",
+                "operationId": "putVideo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do vídeo que deseja editar.",
+                        "required": true,
+                        "default": "62b2947caf24561b008a8b54"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Video"
+                            },
+                            "examples":{
+                                "video":{
+                                    "value":{
+                                        "name":"Como configurar um servidor FTP",
+                                        "url": "https://www.youtube.com/embed/HqT5xzSBa70",
+                                        "matter": "Redes",
+                                        "type": "Vídeo",
+                                        "channel": "Jeandson Barros",
+                                        "thumbnail": "http://img.youtube.com/vi/HqT5xzSBa70/hqdefault.jpg"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Confirmação de que o vídeo foi editado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vídeo não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao editar vídeo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Vídeos"
+                ],
+                "summary": "Deletar vídeo.",
+                "description": "Deleta o video do id informado pelo parâmetro da URL.",
+                "operationId": "deleteVideo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id do vídeo que deseja deletar.",
+                        "required": true,
+                        "default": "62b2947caf24561b008a8b54"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Confirmação de que o vídeo deletado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Vídeo não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao deletar vídeo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Message"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Message": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Video": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "matter": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "channel": {
+                        "type": "string"
+                    },
+                    "thumbnail": {
+                        "type": "string"
+                    },
+                    "__v":{
+                        "type": "integer"
+                    }
+                }
+            },
+            "Videos": {
+                "type": "object",
+                "properties": {
+                    "limit": {
+                        "type": "integer"
+                    },
+                    "skip": {
+                        "type": "integer"
+                    },
+                    "count": {
+                        "type": "integer"
+                    },
+                    "totalPages": {
+                        "type": "integer"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Video"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

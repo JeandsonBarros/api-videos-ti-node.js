@@ -27,7 +27,7 @@ module.exports = class VideoService {
             }
 
         } catch (error) {
-            return { status: 404, response: "Nada encontrado" }
+            return { status: 500, response: "Error" }
         }
     }
 
@@ -51,9 +51,9 @@ module.exports = class VideoService {
                 return (item[key].toLowerCase().includes(content.toLowerCase()) /* || content.toLowerCase().includes(item[key].toLowerCase()) */);
             })
 
-            data = data.slice(skip, skip + limit)
-
             let count = data.length
+
+            data = data.slice(skip, skip + limit)
 
             return {
                 status: 200,
@@ -68,7 +68,7 @@ module.exports = class VideoService {
             }
 
         } catch (error) {
-            return { status: 404, response: "Nada encontrado" }
+            return { status: 500, response: "Error" }
         }
     }
 
@@ -84,7 +84,7 @@ module.exports = class VideoService {
             return { status: 200, response: video }
 
         } catch (error) {
-            return { status: 404, response: "Vídeo não encontrado" }
+            return { status: 500, response: "Error" }
         }
     }
 
@@ -142,7 +142,7 @@ module.exports = class VideoService {
 
             await VideoModel.updateOne({ _id: id }, videoEdit)
 
-            return { status: 201, response: "Vídeo editado" }
+            return { status: 200, response: "Vídeo editado" }
 
         } catch (error) {
             return { status: 500, response: "Erro ao editar vídeo" }
@@ -162,7 +162,7 @@ module.exports = class VideoService {
 
             await VideoModel.deleteOne({ _id: id })
 
-            return { status: 201, response: "Vídeo deletado" }
+            return { status: 200, response: "Vídeo deletado" }
 
         } catch (error) {
             return { status: 500, response: "Erro ao deletar vídeo" }
